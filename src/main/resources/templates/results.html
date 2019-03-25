@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<head>
+    <meta charset="UTF-8">
+    <title>RESULTS</title>
+
+    <!--BOOTSTRAP-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!--EXTERNAL STYLES-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet">
+
+    <!--INTERNAL SCRIPTS & STYLES-->
+    <link href="../static/css/home.css" rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+<!--NAVBAR-->
+    <nav class="navbar">
+        <a class="navbar-brand active">
+            <img src="leftBrainRightBrain.png" alt="Logo" style="height: 70px;">
+        </a>
+        <p>[[${session.user.FirstName}]]</p>
+
+        <!--MEMBER-->
+        <div th:if="${session.user.FirstName != 'guest'}" >
+            <ul class="navbar nav">
+                <li class="navbar-item">
+                    <form action="/profile" method="POST">
+                        <li style="my-auto float:right"><input type="submit" class="profile" value="Profile" /></li>
+                    </form>
+                    <p><li style="float:right"><a class="nav-link active" href="/logout" >Logout</a></p></li>
+                    <p><li style="float:right"><a class="nav-link active" href="/home">Select Again</a></p></li>
+                </li>
+            </ul>
+        </div>
+
+        <!--GUEST-->
+        <div th:if="${session.user.FirstName == 'guest'}" >
+            <ul class="navbar nav">
+                <li class="navbar-item">
+                    <p><li style="float:right"><a class="nav-link active" href="/login">Login</a></p></li>
+                    <p><li style="float:right"><a class="nav-link active" href="/registration">SignUp</a></p></li>
+                    <p><li style="float:right"><a class="nav-link active" href="/home">Select Again</a></p></li>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+<!--Containers for each movie suggestion -->
+    <div class="container-fluid" id="result-container">
+        <div class="card-deck">
+            <div class="card" th:each="movie:${session.MovieArray}">
+                <img class="card-image-top" th:src="'https://image.tmdb.org/t/p/w1280' + ${movie.Poster_path}" alt="Image Path" width="100%"></img>
+                <div class="card-body">
+                    <p class="card-text">Title: [[${movie.title}]]</p>
+                    <p class="card-text">Year: [[${movie.year}]]</p>
+                    <p class="card-text">Popularity: [[${movie.popularity}]]</p>
+                    <p class="card-text">Genre: [[${movie.api_Genre}]]</p>
+                    <p class="card-text">Description: [[${movie.description}]]</p>
+
+                    <div class="iframe-container">
+                        <iframe width="305"
+                                th:src="${movie.youtubeLink}"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
