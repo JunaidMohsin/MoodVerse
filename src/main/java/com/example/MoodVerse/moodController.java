@@ -26,7 +26,7 @@ public class moodController {
     @GetMapping("/")
     public String loginUser(HttpSession session){
        //initate a guest user.
-        User intialUser = new User("guest", "guest", "guest@guest.com", "123456");
+        User intialUser = new User("Guest", "Guest", "guest@guest.com", "123456");
        session.setAttribute("user", intialUser);
         return "home";
     }
@@ -82,7 +82,7 @@ public class moodController {
 
 //Adding member color selection to databse
 
-        if(!userData.getFirstName().equals("guest")){
+        if(!userData.getFirstName().equals("Guest")){
             System.out.println("Ab mai database main history add karunga");
             System.out.println(colorStr + "   " + userData.getEmail());
         repository.addColorToMoodHistory(colorStr, userData.getEmail());

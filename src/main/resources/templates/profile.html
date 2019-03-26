@@ -32,7 +32,7 @@
     <p>[[${session.user.FirstName}]]</p>
 
     <!--MEMBER-->
-    <div th:if="${session.user.FirstName != 'guest'}" >
+    <div th:if="${session.user.FirstName != 'Guest'}" >
         <ul class="navbar nav">
             <li class="navbar-item">
                 <form action="/profile" method="POST">
