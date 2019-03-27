@@ -69,6 +69,14 @@
             <div id="login-box">
                 <div class="left">
                     <div class="bio-content2">
+                        <!-- Date Selections -->
+                        <div>
+                            <form action="/dateRange" method="POST">
+                                <input type="date" name="fromDate" value="fromdate" required> From </input>
+                                <input type="date"name="toDate" value="todate" required> To </input>
+                                <input type="submit" name="submit" value="submit">
+                            </form>
+                        </div><br>
                         <h1 th:text="${session.user.FirstName}"></h1>
                         <h4>Your Mood History:</h4><br>
 
@@ -78,12 +86,22 @@
                         <p><span th:text="${key}"></span> :
                             <span th:text="${moodHistory.get(key)}"></span></p>
                     </div>
+                    <br>
                 </div>
+
+
             </div>
         </div>
+
+
+        <br>
+
     </div>
 </div>
 
+
+
+<br>
 
 
 </body>

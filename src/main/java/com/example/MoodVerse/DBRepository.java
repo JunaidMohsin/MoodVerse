@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.*;
+import java.util.Date;
 import java.util.HashMap;
 
 @Repository
@@ -279,7 +280,39 @@ public boolean checkEmail(String email){
         return moodHistory;
     }// End of addColorToMoodHistory method
 
+///************  Getting mood history by date range ***********/
 
+    public HashMap<String, Integer> frequencyOfUserColorHistorybyDate(String email, String fromDate, String toDate) {
+        HashMap<String, Integer> moodHistory = new HashMap<>();
+        int index = 0;
+        String[] keyNames = {"red","bright_green","blue","orange","dark_green","yellow","sky_blue","purple"};
+        //[orange=6, red=4, blue=4, bright_green=4, dark_green=5, yellow=4, purple=7, sky_blue=4]
+        for(int i = 0; i < 8; i++){
+            moodHistory.put(keyNames[i],0);
+        }
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT COUNT(Color) AS Frequency,Color,Email,DateLogged " +
+                     "FROM MoodHistory " +
+                     "JOIN Member on Member.MemberId= MoodHistory.MemberId " +
+                     "WHERE Email = ? AND DateLogged >= ? AND DateLogged <= ? " +
+                     "GROUP BY Color,Email, DateLogged " )) {
+            ps.setString(1, email);
+            ps.setString(2, fromDate);
+            ps.setString(3, toDate);
+            ResultSet rs = ps.executeQuery();
+
+
+            while(rs.next()) {
+                System.out.println(rs.getInt(1));
+                moodHistory.put(rs.getString("Color"), rs.getInt("Frequency"));
+            }
+        }  catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return moodHistory;
+    }// End of addColorToMoodHistory method
 
 
 }//class ends here

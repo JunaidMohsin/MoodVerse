@@ -9,7 +9,11 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.validation.groups.Default;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 @Controller
@@ -239,6 +243,62 @@ model.addAttribute("moodHistory", moodHistory);
         session.invalidate();
         return "redirect:/";
     }
+
+
+// Mood History display based on dates
+
+@GetMapping ("/dateRange")
+    public String historyDated (HttpSession session){
+        return "/profile";
+}
+
+    @PostMapping ("/dateRange")
+    public String historyDate (HttpSession session, Model model, @RequestParam String fromDate, @RequestParam String toDate){
+        User userData = (User)session.getAttribute("user");
+
+        /*
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        Date date1 = null;
+        Date date2 = null;
+
+        try {
+            date1 = format.parse(fromDate);
+            date2 = format.parse(toDate);
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //Checking inputs receving from view
+
+        System.out.println(userData.getFirstName() + " is trying to check is mood history as per date");
+        System.out.println(fromDate);
+        System.out.println(toDate);
+        System.out.println(date1 + "formatted from date");
+        System.out.println(date2 + "formatted to date");
+        */
+
+
+        HashMap<String, Integer> moodHistory = repository.frequencyOfUserColorHistorybyDate(userData.getEmail(), fromDate, toDate);
+        model.addAttribute("moodHistory", moodHistory);
+
+        int colorFreq[] = new int[8];
+        int index=0;
+        // order of the colors   red,orange,blue,Bgreen,Dgreen,yellow,purple,skyBlue
+        String[] keyNames = {"red","orange","blue","bright_green","dark_green","yellow","purple","sky_blue"};
+
+        for (int f = 0; f < moodHistory.size(); f++) {
+            colorFreq[index] = moodHistory.get(keyNames[f]);
+            System.out.println("Entry Set: " + keyNames[f]);
+            index++;
+        }
+
+        model.addAttribute("colorFreq", colorFreq);
+
+
+        return "/profile";
+
+    }//end of date range mood history method
+
 
 
 }//class ends here
