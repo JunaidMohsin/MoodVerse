@@ -256,28 +256,6 @@ model.addAttribute("moodHistory", moodHistory);
     public String historyDate (HttpSession session, Model model, @RequestParam String fromDate, @RequestParam String toDate){
         User userData = (User)session.getAttribute("user");
 
-        /*
-        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-        Date date1 = null;
-        Date date2 = null;
-
-        try {
-            date1 = format.parse(fromDate);
-            date2 = format.parse(toDate);
-        }catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        //Checking inputs receving from view
-
-        System.out.println(userData.getFirstName() + " is trying to check is mood history as per date");
-        System.out.println(fromDate);
-        System.out.println(toDate);
-        System.out.println(date1 + "formatted from date");
-        System.out.println(date2 + "formatted to date");
-        */
-
-
         HashMap<String, Integer> moodHistory = repository.frequencyOfUserColorHistorybyDate(userData.getEmail(), fromDate, toDate);
         model.addAttribute("moodHistory", moodHistory);
 

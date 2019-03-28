@@ -66,43 +66,41 @@
             </div>
         </div>
         <div class="col">
-            <div id="login-box">
+
                 <div class="left">
-                    <div class="bio-content2">
-                        <!-- Date Selections -->
+                    <br>
+                    <container>
+                        <h2 th:text="${session.user.FirstName}"></h2>
+                        <h4>Your Mood History:</h4>
+                    <div  >
+
+                        <table style="border-spacing: 20px; border-collapse: separate; padding:10px;">
+                            <tr><strong>
+                            <th>Color</th>
+                            <th>Frequency</th></strong>
+                            </tr>
+                            <tr th:each="key: ${moodHistory.keySet()}">
+                                <td th:text="${key}"></td>
+                                <td th:text="${moodHistory.get(key)}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    </container>
+
+                    <container>
                         <div>
+                            <h5>See how your mood has been within a date range</h5><br>
                             <form action="/dateRange" method="POST">
-                                <input type="date" name="fromDate" value="fromdate" required> From </input>
+                                <input type="date" name="fromDate" value="fromdate" required> From </input><p></p>
                                 <input type="date"name="toDate" value="todate" required> To </input>
                                 <input type="submit" name="submit" value="submit">
                             </form>
-                        </div><br>
-                        <h1 th:text="${session.user.FirstName}"></h1>
-                        <h4>Your Mood History:</h4><br>
-
-                    </div>
-                    <br>
-                    <div  th:each="key: ${moodHistory.keySet()}">
-                        <p><span th:text="${key}"></span> :
-                            <span th:text="${moodHistory.get(key)}"></span></p>
-                    </div>
-                    <br>
+                        </div>
+                    </container>
                 </div>
-
-
             </div>
         </div>
-
-
-        <br>
-
     </div>
 </div>
-
-
-
-<br>
-
-
 </body>
 </html>

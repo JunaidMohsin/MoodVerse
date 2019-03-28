@@ -10,7 +10,9 @@ public class YoutubeKeyController {
 
     public String keyExtract(RestTemplate restTemplate, String omdbId){
     String link = "null";
-    JsonObject youtube = restTemplate.getForObject("http://api.themoviedb.org/3/movie/" + omdbId + "/videos?api_key=5aaf255316a4c105a15a3e69435a761e", JsonObject.class );
+    JsonObject youtube = restTemplate.getForObject("http://api.themoviedb.org/3/movie/"
+            + omdbId + "/videos?api_key=5aaf255316a4c105a15a3e69435a761e",
+            JsonObject.class );
 
     if(youtube != null){
         link = "https://www.youtube.com/embed/"+youtube.getResults().get(0).getKey();
