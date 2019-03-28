@@ -292,11 +292,11 @@ public boolean checkEmail(String email){
         }
 
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT COUNT(Color) AS Frequency,Color,Email,DateLogged " +
+             PreparedStatement ps = conn.prepareStatement("SELECT COUNT(Color) AS Frequency,Color " +
                      "FROM MoodHistory " +
                      "JOIN Member on Member.MemberId= MoodHistory.MemberId " +
                      "WHERE Email = ? AND DateLogged >= ? AND DateLogged <= ? " +
-                     "GROUP BY Color,Email, DateLogged " )) {
+                     "GROUP BY Color,Email" )) {
             ps.setString(1, email);
             ps.setString(2, fromDate);
             ps.setString(3, toDate);
